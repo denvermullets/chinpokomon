@@ -14,9 +14,9 @@ enum FacingDirection { LEFT, RIGHT, UP, DOWN }
 var player_state = PlayerState.IDLE
 var facing_direction = FacingDirection.DOWN
 
-
 onready var anim_tree = $AnimationTree
 onready var anim_state = anim_tree.get("parameters/playback")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	anim_tree.active = true
