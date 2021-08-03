@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+signal player_moving_signal
+signal player_stopped_signal
+
 const TILE_SIZE = 16
 
 onready var ray = $RayCast2D
@@ -82,11 +85,14 @@ func move(delta):
 	ray.cast_to = desired_step
 	ray.force_raycast_update()
 	if !ray.is_colliding():
+		if percent_moved_to_next_tile == 0:
+			emit_signal("player_moving_signal")
 		percent_moved_to_next_tile += walk_speed * delta
 		if percent_moved_to_next_tile >= 1.0:
 			position = initial_position + (TILE_SIZE * input_direction)
 			percent_moved_to_next_tile = 0.0
 			is_moving = false
+			emit_signal("player_stopped_signal")
 		else:
 			position = initial_position + (TILE_SIZE * input_direction * percent_moved_to_next_tile)
 	else:
